@@ -1,0 +1,157 @@
+================================================================================
+RESEARCH AGENT — LIVE DEMO SCRIPT (copy/paste)
+Agentic Workflows · AI Forum Hackathon · ~8–10 min
+================================================================================
+
+BEFORE THE SESSION (do this once, not on stage)
+--------------------------------------------------------------------------------
+
+cd "/Users/vatthanaboulom/Seen Ventures/internal-projects/AI-Hack-2026/Agentic System"
+
+# One-time setup: open .env and paste your REAL key from platform.openai.com
+# (starts with sk-proj- or sk-..., ~50+ characters — NOT a placeholder)
+open -e .env
+
+chmod +x run_demo.sh
+
+./run_demo.sh
+
+# You should see STEP 1 web_search → STEP 2 calculator → green ANSWER panel.
+# If that works, you're good for the live session.
+
+
+ON STAGE — TERMINAL SETUP (30 seconds)
+--------------------------------------------------------------------------------
+
+cd "/Users/vatthanaboulom/Seen Ventures/internal-projects/AI-Hack-2026/Agentic System"
+
+# No export needed — run_demo.sh loads .env automatically
+
+
+BEAT 1 — Run the main demo (~4 min)
+--------------------------------------------------------------------------------
+
+./run_demo.sh
+
+WHAT APPEARS ON SCREEN (in order):
+  1. Blue RESEARCH AGENT panel with the question
+  2. "thinking..." then live steps as they happen:
+       STEP 1  DECIDE → ACT   🔍 web_search(...)
+       OBSERVE                ← population result
+       STEP 2  DECIDE → ACT   🧮 calculator(...)
+       OBSERVE                ← 1560000.0
+  3. Green ANSWER panel with confidence bar
+  4. Footer: "2 tool calls · N tokens · Xs"
+
+SAY:
+  "Watch the loop happen live — the model decides to search, observes the result,
+   decides to calculate, observes the answer. That's perceive → decide → act →
+   observe from the slides, running in real time."
+
+
+BEAT 2 — Point at the tools in demo.py (~2 min)
+--------------------------------------------------------------------------------
+
+# Open demo.py in your editor. Follow the numbered STOPS in the file header:
+#   STOP 1  ResearchResult     — structured output
+#   STOP 2  agent = Agent(...) — one declaration
+#   STOP 3  web_search / calculator  ★ main teaching moment
+
+SAY:
+  "We wrote normal Python functions. PydanticAI turned them into tools the model
+   can call. Good docstrings and types ARE the interface — vague descriptions
+   cause more failures than bad code."
+
+
+BEAT 3 — Point at output + observability (~2 min)
+--------------------------------------------------------------------------------
+
+# Scroll up to the green ANSWER panel from Beat 1.
+
+SAY:
+  "The answer isn't loose text — it's a validated object: answer, sources_used,
+   confidence with a score. That's what your app consumes in production."
+
+# Optional deep-dive — compact message trace underneath:
+./run_demo.sh trace
+
+SAY:
+  "If you need to debug, PydanticAI gives you the full message history —
+   every model request, tool call, and tool return. That's observability."
+
+
+OPTIONAL — Show the model deciding NOT to use tools (~1 min)
+--------------------------------------------------------------------------------
+
+./run_demo.sh direct
+
+SAY:
+  "Same agent, different question — no tool calls. The agentic bit is the
+   decision: use tools or answer directly."
+
+
+OPTIONAL — Multi-agent handovers (~3 min)
+--------------------------------------------------------------------------------
+
+./run_demo.sh multi
+
+# Open demo_multi.py. Follow the numbered STOPS:
+#   STOP 4  orchestrator           — delegates only, no domain tools
+#   STOP 6  delegate_research/analysis  — orchestrator–workers
+#   STOP 7  delegate_writing       — writer ↔ critic loop
+
+WHAT APPEARS ON SCREEN (in order):
+  1. Magenta MULTI-AGENT RESEARCH SYSTEM panel with the question
+  2. Orchestrator handovers with nested sub-agent steps:
+       STEP 1  ORCHESTRATOR → HANDOVER   📚 delegate_research(...)
+           ├─ RESEARCHER  🔍 web_search(...)
+           ├─ OBSERVE     ← population result
+           └─ RETURN      ← facts handed back
+       STEP 2  ORCHESTRATOR → HANDOVER   🧮 delegate_analysis(...)
+           ├─ ANALYST  🧮 calculator(...)
+           └─ RETURN      ← expression = result
+       STEP 3  ORCHESTRATOR → HANDOVER   ✍️ delegate_writing(...)
+           ├─ WRITER  draft v1
+           ├─ CRITIC  ✗ revise / ✓ approved
+           └─ RETURN      ← brief ready
+  3. Green FINAL REPORT panel with facts, calculation, brief, revisions
+  4. Footer: "3 handovers · N sub-agent tool calls · N tokens · Xs"
+
+SAY:
+  "This is orchestrator–workers plus evaluator–optimiser from slide 6. The
+   orchestrator doesn't do the work — it hands off to specialists and gets
+   control back. Writer and critic loop until the brief passes review.
+   Notice it costs more tokens than the single agent — multi-agent is a cost,
+   not a badge of honour."
+
+
+IF SOMETHING BREAKS
+--------------------------------------------------------------------------------
+
+# Re-run main demo:
+./run_demo.sh
+
+# Run both demos back-to-back:
+./run_demo.sh both
+
+# Multi-agent demo:
+./run_demo.sh multi
+
+# Custom question:
+python demo.py "What is the capital of New Zealand?"
+
+# Pretty view + compact trace:
+python demo.py --trace "What is 30% of New Zealand's population?"
+
+
+QUICK REFERENCE — WHAT YOU'RE SHOWING
+--------------------------------------------------------------------------------
+
+1. Tools     → docstring + types become the schema (demo.py lines ~75–105)
+2. Output    → ResearchResult validated object in green ANSWER panel
+3. Loop      → live STEP / DECIDE→ACT / OBSERVE lines as tools run
+4. Trace     → ./run_demo.sh trace (compact message trace for observability)
+5. Model     → openai:gpt-5-mini
+6. Multi     → ./run_demo.sh multi (orchestrator handovers + writer/critic loop)
+
+================================================================================
