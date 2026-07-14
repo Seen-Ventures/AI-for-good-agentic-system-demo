@@ -47,11 +47,12 @@ You should see the agent search for NZ population data, calculate 30%, and retur
 | `./run_demo.sh trace` | Beat 1 + compact message trace for debugging |
 | `./run_demo.sh multi` | **Beat 4** — 4 agents with orchestrator handovers |
 | `./run_demo.sh both` | Main demo, then direct |
+| `./run_demo.sh all` | **Everything** — main, direct, trace, and multi |
 
-Run all four back-to-back:
+Run all demos back-to-back:
 
 ```bash
-./run_demo.sh main && ./run_demo.sh direct && ./run_demo.sh trace && ./run_demo.sh multi
+./run_demo.sh all
 ```
 
 Custom questions:

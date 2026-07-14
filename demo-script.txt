@@ -131,8 +131,11 @@ IF SOMETHING BREAKS
 # Re-run main demo:
 ./run_demo.sh
 
-# Run both demos back-to-back:
+# Run main + direct back-to-back:
 ./run_demo.sh both
+
+# Run everything (main, direct, trace, multi):
+./run_demo.sh all
 
 # Multi-agent demo:
 ./run_demo.sh multi

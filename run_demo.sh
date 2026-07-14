@@ -86,14 +86,29 @@ case "$MODE" in
     echo "=== OPTIONAL: Direct answer (no tools) ==="
     python demo.py --direct "Explain what an agent is in one line"
     ;;
+  all)
+    echo ""
+    echo "=== BEAT 1: Main demo (tool chaining) ==="
+    python demo.py "What is 30% of New Zealand's population?"
+    echo ""
+    echo "=== OPTIONAL: Direct answer (no tools) ==="
+    python demo.py --direct "Explain what an agent is in one line"
+    echo ""
+    echo "=== BEAT 3: Under the hood (message trace) ==="
+    python demo.py --trace "What is 30% of New Zealand's population?"
+    echo ""
+    echo "=== BEAT 4: Multi-agent handovers (orchestrator + workers) ==="
+    python demo_multi.py
+    ;;
   *)
-    echo "Usage: ./run_demo.sh [main|direct|trace|multi|both]"
+    echo "Usage: ./run_demo.sh [main|direct|trace|multi|both|all]"
     echo ""
     echo "  main   — default demo question (chains web_search + calculator)"
     echo "  direct — optional second run (model answers without tools)"
     echo "  trace  — pretty view + compact message trace for observability beat"
     echo "  multi  — multi-agent demo with orchestrator handovers"
     echo "  both   — run main then direct"
+    echo "  all    — run main, direct, trace, and multi back-to-back"
     exit 1
     ;;
 esac
