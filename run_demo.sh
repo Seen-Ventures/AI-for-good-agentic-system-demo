@@ -56,22 +56,23 @@ if [[ "${OPENAI_API_KEY}" == *"PASTE"* ]] \
 fi
 
 MODE="${1:-main}"
+DEMO_QUESTION="What is 30% of New Zealand's population?"
 
 case "$MODE" in
   main)
     echo ""
     echo "=== BEAT 1: Main demo (tool chaining) ==="
-    python demo.py "What is 30% of New Zealand's population?"
+    python demo.py "$DEMO_QUESTION"
     ;;
   direct)
     echo ""
-    echo "=== OPTIONAL: Direct answer (no tools) ==="
-    python demo.py --direct "Explain what an agent is in one line"
+    echo "=== OPTIONAL: Same question, no tools (--direct) ==="
+    python demo.py --direct "$DEMO_QUESTION"
     ;;
   trace)
     echo ""
     echo "=== BEAT 3: Under the hood (raw observability trace) ==="
-    python demo.py --trace "What is 30% of New Zealand's population?"
+    python demo.py --trace "$DEMO_QUESTION"
     ;;
   multi)
     echo ""
@@ -81,21 +82,21 @@ case "$MODE" in
   both)
     echo ""
     echo "=== BEAT 1: Main demo (tool chaining) ==="
-    python demo.py "What is 30% of New Zealand's population?"
+    python demo.py "$DEMO_QUESTION"
     echo ""
-    echo "=== OPTIONAL: Direct answer (no tools) ==="
-    python demo.py --direct "Explain what an agent is in one line"
+    echo "=== OPTIONAL: Same question, no tools (--direct) ==="
+    python demo.py --direct "$DEMO_QUESTION"
     ;;
   all)
     echo ""
     echo "=== BEAT 1: Main demo (tool chaining) ==="
-    python demo.py "What is 30% of New Zealand's population?"
+    python demo.py "$DEMO_QUESTION"
     echo ""
-    echo "=== OPTIONAL: Direct answer (no tools) ==="
-    python demo.py --direct "Explain what an agent is in one line"
+    echo "=== OPTIONAL: Same question, no tools (--direct) ==="
+    python demo.py --direct "$DEMO_QUESTION"
     echo ""
     echo "=== BEAT 3: Under the hood (message trace) ==="
-    python demo.py --trace "What is 30% of New Zealand's population?"
+    python demo.py --trace "$DEMO_QUESTION"
     echo ""
     echo "=== BEAT 4: Multi-agent handovers (orchestrator + workers) ==="
     python demo_multi.py
@@ -104,7 +105,7 @@ case "$MODE" in
     echo "Usage: ./run_demo.sh [main|direct|trace|multi|both|all]"
     echo ""
     echo "  main   — default demo question (chains web_search + calculator)"
-    echo "  direct — optional second run (model answers without tools)"
+    echo "  direct — same question as main, but forced to answer without tools"
     echo "  trace  — pretty view + compact message trace for observability beat"
     echo "  multi  — multi-agent demo with orchestrator handovers"
     echo "  both   — run main then direct"

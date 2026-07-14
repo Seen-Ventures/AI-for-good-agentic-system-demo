@@ -10,7 +10,7 @@ WHAT THIS SHOWS
 
 RUN IT
     ./run_demo.sh              # Beat 1 — main demo
-    ./run_demo.sh direct       # optional — model answers without tools
+    ./run_demo.sh direct       # optional — same question, forced no tools
     ./run_demo.sh trace        # Beat 3 — compact message trace
 
 WALKTHROUGH GUIDE (open this file while the terminal runs)
@@ -399,11 +399,11 @@ def run(question: str, *, show_trace: bool = False, direct: bool = False) -> Non
         "event_stream_handler": event_stream_handler,
     }
 
-    # --direct mode: force the model to answer without tools (optional Beat 2).
-    # SAY: "Same agent, different decision — no tool calls. That's still agentic."
+    # --direct mode: same question as main, but tool_choice forced to none.
+    # SAY: "Same agent, same question — contrast with Beat 1: tools vs no tools."
     if direct:
         run_kwargs["instructions"] = (
-            "Answer the question directly in one concise line."
+            "Answer the question directly. Do not use any tools."
         )
         run_kwargs["model_settings"] = {"tool_choice": "none"}
 
@@ -433,7 +433,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--direct",
         action="store_true",
-        help="Answer without tools (optional second demo beat)",
+        help="Same question, forced to answer without tools (compare with main)",
     )
     parser.add_argument(
         "question",

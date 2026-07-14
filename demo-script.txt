@@ -86,8 +86,9 @@ OPTIONAL — Show the model deciding NOT to use tools (~1 min)
 ./run_demo.sh direct
 
 SAY:
-  "Same agent, different question — no tool calls. The agentic bit is the
-   decision: use tools or answer directly."
+  "Same agent, same question — but this time we force tool_choice to none.
+   No tool calls. The contrast with Beat 1 is the point: tools vs no tools
+   on identical input."
 
 
 OPTIONAL — Multi-agent handovers (~3 min)

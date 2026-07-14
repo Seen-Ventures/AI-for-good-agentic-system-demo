@@ -43,7 +43,7 @@ You should see the agent search for NZ population data, calculate 30%, and retur
 | Command | What it shows |
 |---------|---------------|
 | `./run_demo.sh` | **Beat 1** — single agent chains `web_search` → `calculator` |
-| `./run_demo.sh direct` | Same agent answers without tools (model's choice) |
+| `./run_demo.sh direct` | Same question as main, forced to answer without tools |
 | `./run_demo.sh trace` | Beat 1 + compact message trace for debugging |
 | `./run_demo.sh multi` | **Beat 4** — 4 agents with orchestrator handovers |
 | `./run_demo.sh both` | Main demo, then direct |
